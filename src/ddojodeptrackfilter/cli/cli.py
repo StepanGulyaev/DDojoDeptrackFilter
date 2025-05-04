@@ -51,6 +51,17 @@ def parse_DDojo_args() -> argparse.Namespace:
                         required=True,
                         help="DefectDojo engagement id.")
 
+    parser.add_argument('-t',
+                        '--timeout',
+                        type=positive_nonzero_int,
+                        default=60,
+                        help="HTTP request timeout in seconds.")
+
+    parser.add_argument('--no-verify-ssl',
+                        action="store_false",
+                        dest="verify_ssl",
+                        help="Disable SSL certificate verification.")
+
     return parser.parse_args()
 
 
