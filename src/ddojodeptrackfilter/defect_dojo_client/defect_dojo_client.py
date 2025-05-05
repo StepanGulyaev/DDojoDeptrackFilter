@@ -87,13 +87,16 @@ class DefectDojoClient:
             raise RuntimeError(f"API request failed [{method} {url}]: {exc}")
         return resp
 
-
     def get_users(self) -> dict:
         resp = self._request("GET",'api/v2/users/')
         return resp.json()
 
+    def get_findings(self, engagement_id: int, **params) -> dict:
+        params['engagement'] = engagement_id
+        resp = self._request("GET",'api/v2/findings/',params=params)
+        return resp.json()
 
-
-
-
-
+    def get_tests_for_engagement(self,engagement_id: int, **params) -> dict:
+        params['engagement'] = engagement_id
+        resp = self._request("GET",'api/v2/tests/',params=params)
+        return resp.json()
