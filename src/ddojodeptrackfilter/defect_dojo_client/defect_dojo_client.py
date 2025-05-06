@@ -92,20 +92,18 @@ class DefectDojoClient:
         resp = self._request("GET",'api/v2/users/')
         return resp.json()
 
-    def get_findings(self, engagement_id: int, **params) -> dict:
-        page_size = settings.findings_page_size
-        max_workers = settings.max_workers
+#    def get_findings(self, engagement_id: int, **params) -> dict:
+#        limit = settings.findings_limit_size
+#        max_workers = settings.max_workers
 
-        params['engagement'] = engagement_id
-
-        first_page = self._request("GET",'api/v2/findings/')
-        total = first.get('count',0)
-
-         
-
+#        params['engagement'] = engagement_id
+#        params['limit'] = limit
+#        first_page = self._request("GET",'api/v2/findings/',params=params).json()
+#        return first_page
+#        total = first.get('count',0)
 
 
-    def get_tests_for_engagement(self,engagement_id: int, **params) -> dict:
+    def get_tests(self,engagement_id: int, **params) -> dict:
         params['engagement'] = engagement_id
         resp = self._request("GET",'api/v2/tests/',params=params)
         return resp.json()

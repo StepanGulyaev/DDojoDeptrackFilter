@@ -1,19 +1,21 @@
-from pydatic import BaseSettings, Field, validator
+from pydantic import Field
+from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
-    findings_page_size: int = Field(
+    findings_limit_size: int = Field(
             1000,
             ge=1,
             le=1000,
             description="Page size for findings retrieval",
-            env='DDOJO_FINDINGS_PAGE_SIZE'
+            env='DDOJO_FINDINGS_LIMIT_SIZE'
         )
  
     max_workers: int = Field(
             5,
             description="Number of concurrent working threads",
-            ge=1
-            le=20
+            ge=1,
+            le=20,
             env='DDOJO_CLIENT_WORKERS'
         )
 
