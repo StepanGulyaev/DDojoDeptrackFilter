@@ -1,6 +1,7 @@
 import requests 
 from urllib.parse import urljoin
 from urllib.parse import urlparse
+from settings import settings
 
 class DefectDojoClient:
 
@@ -92,9 +93,17 @@ class DefectDojoClient:
         return resp.json()
 
     def get_findings(self, engagement_id: int, **params) -> dict:
+        page_size = settings.findings_page_size
+        max_workers = settings.max_workers
+
         params['engagement'] = engagement_id
-        resp = self._request("GET",'api/v2/findings/',params=params)
-        return resp.json()
+
+        first_page = self._request("GET",'api/v2/findings/')
+        total = first.get('count',0)
+
+         
+
+
 
     def get_tests_for_engagement(self,engagement_id: int, **params) -> dict:
         params['engagement'] = engagement_id
