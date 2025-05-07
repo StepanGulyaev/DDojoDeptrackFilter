@@ -2,6 +2,7 @@ import requests
 from urllib.parse import urljoin
 from urllib.parse import urlparse
 from settings import settings
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class DefectDojoClient:
 
@@ -88,6 +89,36 @@ class DefectDojoClient:
             raise RuntimeError(f"API request failed [{method} {url}]: {exc}")
         return resp
 
+
+    def _get_paginated_parallel(
+            self,
+            endpoint: str,
+            base_params: dict,
+            limit: int,
+            workers: int
+        ) -> dict:
+
+        params = base_params.copy()
+        params['limit'] = limit
+
+        first_page = self._request("GET",endpoint,params=params).json()
+        total = first_page.get('count',0)
+        results = first_page.get('results',[])
+        offsets = list(range(limit,total,limit))
+
+        def get_page(offset:int):
+            page_params = params.copy()
+            page_params['offset'] = offset
+            page = self._request("GET",endpoint,params=page_params).json()
+            return data.get('results',[])
+
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = [executor.sumbit(get_page,offset) for offset in offsets]
+            for future in as_completed(futures):
+                results.extend(future.result())
+        return {'count': total, 'results': results} 
+
+
     def get_users(self) -> dict:
         resp = self._request("GET",'api/v2/users/')
         return resp.json()
@@ -105,5 +136,11 @@ class DefectDojoClient:
 
     def get_tests(self,engagement_id: int, **params) -> dict:
         params['engagement'] = engagement_id
-        resp = self._request("GET",'api/v2/tests/',params=params)
-        return resp.json()
+        return self._get_paginated_parallel(
+                endpoint='api/v2/tests/',
+                base_params=params,
+                limit=settings.limit,
+                workers=settings.workers
+            )
+
+        

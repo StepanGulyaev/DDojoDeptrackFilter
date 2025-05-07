@@ -3,7 +3,7 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    findings_limit_size: int = Field(
+    limit: int = Field(
             1000,
             ge=1,
             le=1000,
@@ -11,7 +11,7 @@ class Settings(BaseSettings):
             env='DDOJO_FINDINGS_LIMIT_SIZE'
         )
  
-    max_workers: int = Field(
+    workers: int = Field(
             5,
             description="Number of concurrent working threads",
             ge=1,
