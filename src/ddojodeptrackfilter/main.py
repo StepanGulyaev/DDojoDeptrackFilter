@@ -1,6 +1,6 @@
-from ddojodeptrackfilter.cli.cli import parse_DDojo_args
-from ddojodeptrackfilter.defect_dojo_client.defect_dojo_client import DefectDojoClient
-from ddojodeptrackfilter.models.test import TestModel
+from cli import parse_DDojo_args
+from client import DefectDojoClient
+from models.test import TestModel
 import json
 
 def execute_main():
