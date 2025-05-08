@@ -1,6 +1,6 @@
 from pydantic import Field
 from pydantic_settings import BaseSettings
-
+from typing import List
 
 class Settings(BaseSettings):
     limit: int = Field(
@@ -18,6 +18,12 @@ class Settings(BaseSettings):
             le=20,
             env='DDOJO_CLIENT_WORKERS'
         )
+
+    # Aliases for test types names for program to recognize and select handlers. Write these in lowercase!
+    
+    deptrack_aliases: List[str] = ["deptrack","dependency track","dependency-track"]
+
+
 
     class Config:
         env_file = '.env'
