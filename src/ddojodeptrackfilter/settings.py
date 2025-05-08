@@ -12,7 +12,7 @@ class Settings(BaseSettings):
         )
  
     workers: int = Field(
-            5,
+            15,
             description="Number of concurrent working threads",
             ge=1,
             le=20,
