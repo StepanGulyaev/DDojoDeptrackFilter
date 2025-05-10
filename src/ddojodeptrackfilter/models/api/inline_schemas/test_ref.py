@@ -16,3 +16,8 @@ class TestRef(BaseModel):
     commit_hash: Optional[str] = Field(None,max_length=150)
     version: Optional[str] = Field(None,max_length=100)
 
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+    }
+

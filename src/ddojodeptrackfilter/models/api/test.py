@@ -6,11 +6,11 @@ from .note import Note
 from .finding_group import FindingGroup
 from .file import File
 
-class TestModel(BaseModel):
+class Test(BaseModel):
     id: int
     tags: List[str] = Field(default_factory=list)
     test_type_name: str
-    finding_groups: List[FindingGroup]
+    finding_groups: List[FindingGroup] = Field(default_factory=list) 
     scan_type: Optional[str] = None
     title: Optional[str] = Field(None,max_length=255)
     description: Optional[str] = None
@@ -30,8 +30,8 @@ class TestModel(BaseModel):
     test_type: int
     environment: Optional[int] = None
     api_scan_configuration: Optional[int] = None
-    notes: List[Note]
-    files: List[int]
+    notes: List[Note] = Field(default_factory=list)
+    files: List[int] = Field(default_factory=list) 
 
     model_config = {
         "populate_by_name": True,

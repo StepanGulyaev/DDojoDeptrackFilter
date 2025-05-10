@@ -14,3 +14,11 @@ class JiraIssue(BaseModel):
     engagement: Optional[int] = None
     finding_group: Optional[int] = None
 
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+        "json_encoders": {
+            datetime: lambda v: v.isoformat(),
+        }
+    }
+

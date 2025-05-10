@@ -19,5 +19,14 @@ class RiskAcceptance(BaseModel):
     created: datetime
     updated: datetime
     owner: int
-    accepted_findings: List[int]
-    notes: List[int]
+    accepted_findings: List[int] = Field(default_factory=list)
+    notes: List[int] = Field(default_factory=list)
+
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+        "json_encoders": {
+            datetime: lambda v: v.isoformat(),
+        }
+    }
+

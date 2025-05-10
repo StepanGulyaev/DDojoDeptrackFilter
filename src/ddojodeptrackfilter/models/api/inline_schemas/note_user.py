@@ -6,4 +6,9 @@ class NoteUser(BaseModel):
     username: str = Field(...,max_length=150,pattern=r'^[\w.@+-]+$')
     first_name: Optional[str] = Field(None,max_length=150)
     last_name: Optional[str] = Field(None,max_length=150)
+    
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+    }
 

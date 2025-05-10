@@ -7,3 +7,9 @@ class FindingProduct(BaseModel):
     id: int
     name: str = Field(...,max_length=255)
     prod_type: FindingProdType 
+
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+    }
+

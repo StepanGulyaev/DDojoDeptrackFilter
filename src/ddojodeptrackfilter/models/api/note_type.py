@@ -8,3 +8,9 @@ class NoteType(BaseModel):
     is_single: Optional[bool] = None
     is_active: Optional[bool] = None
     is_mandatory: Optional[bool] = None
+
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+    }
+

@@ -2,17 +2,17 @@ from abc import ABC, abstractmethod
 from typing import Type, List
 from ddojodeptrackfilter.client import DefectDojoClient
 
-from ddojodeptrackfilter.models.api.test import TestModel
+from ddojodeptrackfilter.models.api.test import Test
 
 class DDojoTestHandler(ABC):
 
     @classmethod
     @abstractmethod
-    def supports(cls, test: TestModel) -> bool:
+    def supports(cls, test: Test) -> bool:
         ...
 
     @abstractmethod
-    def handle(self, test: TestModel, client: DefectDojoClient):
+    def handle(self, test: Test, client: DefectDojoClient):
         ...
 
 
@@ -24,7 +24,7 @@ class DDojoTestHandlerRegistry:
         cls._handlers.append(handler)
 
     @classmethod
-    def get_for(cls, test: TestModel) -> DDojoTestHandler:
+    def get_for(cls, test: Test) -> DDojoTestHandler:
         for handler_cls in cls._handlers:
             if handler_cls.supports(test):
                 return handler_cls()

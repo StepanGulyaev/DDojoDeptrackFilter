@@ -2,66 +2,28 @@ from datetime import date, datetime
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field
 
-from .inline_schemas.request_responce import RequestResponce 
+from .inline_schemas.request_responce import RequestResponse 
 from .inline_schemas.related_fields import RelatedFields
 
 from .risk_acceptance import RiskAcceptance
 from .finding_meta import FindingMeta
+from .finding_group import FindingGroup
 from .vulnerability_id import VulnerabilityID
+from .note import Note
 
 
-
-
-
-class NoteAuthor(BaseModel):
-    id: int
-    username: str
-    first_name: str
-    last_name: str
-
-
-class NoteHistory(BaseModel):
-    id: int
-    current_editor: NoteAuthor
-    note_type: Any
-    data: str
-    time: datetime
-
-
-class NoteTypeRef(BaseModel):
-    id: int
-    name: str
-    description: str
-    is_single: bool
-    is_active: bool
-    is_mandatory: bool
-
-
-class Note(BaseModel):
-    id: int
-    author: NoteAuthor
-    editor: Optional[NoteAuthor]
-    history: List[NoteHistory] = Field(default_factory=list)
-    note_type: NoteTypeRef
-    entry: str
-    date: datetime
-    private: bool
-    edited: bool
-    edit_time: datetime
-
-
-class FindingModel(BaseModel):
+class Finding(BaseModel):
     id: int
     tags: List[str] = Field(default_factory=list)
     request_response: RequestResponse
-    accepted_risks: List[RiskAcceptance]
+    accepted_risks: List[RiskAcceptance] = Field(default_factory=list)
     push_to_jira: Optional[bool] = None
     age: int
     sla_days_remaining: int
-    finding_meta: List[FindingMeta]
-    related_fields: RelatedFields
-    jira_creation: datetime
-    jira_change: datetime
+    finding_meta: List[FindingMeta] = Field(default_factory=list)
+    related_fields: Optional[RelatedFields] = None
+    jira_creation: Optional[datetime] = None
+    jira_change: Optional[datetime] = None
     display_status: str
     finding_groups: List[FindingGroup] = Field(default_factory=list)
     vulnerability_ids: List[VulnerabilityID] = Field(default_factory=list)
@@ -95,38 +57,38 @@ class FindingModel(BaseModel):
     is_mitigated: Optional[bool] = None
     thread_id: int
     mitigated: datetime
-    numerical_severity: str
+    numerical_severity: str = Field(...,max_length=4)
     last_reviewed: datetime
     param: str
     payload: str
     hash_code: str
-    line: int
-    file_path: str
-    component_name: str
-    component_version: str
-    static_finding: bool
-    dynamic_finding: bool
+    line: Optional[int]
+    file_path: Optional[str] = Field(None,max_length=4000)
+    component_name: Optional[str] = Field(None,max_length=500)
+    component_version: Optional[str] = Field(None,max_length=100)
+    static_finding: Optional[bool] = None
+    dynamic_finding: Optional[bool] = None
     created: datetime
     scanner_confidence: int
-    unique_id_from_tool: str
-    vuln_id_from_tool: str
-    sast_source_object: str
-    sast_sink_object: str
-    sast_source_line: int
-    sast_source_file_path: str
-    nb_occurences: int
-    publish_date: date
-    service: str
+    unique_id_from_tool: Optional[str] = Field(None,max_length=500)
+    vuln_id_from_tool: Optional[str] = Field(None,max_length=500)
+    sast_source_object: Optional[str] = Field(None,max_length=500)
+    sast_sink_object: Optional[str] = Field(None,max_length=500)
+    sast_source_line: Optional[int] = None
+    sast_source_file_path: Optional[str] = Field(None,max_length=4000)
+    nb_occurences: Optional[int] = None
+    publish_date: Optional[date]
+    service: Optional[str] = Field(None,max_length=200)
     planned_remediation_date: date
-    planned_remediation_version: str
-    effort_for_fixing: str
+    planned_remediation_version: Optional[str] = Field(None,max_length=99)
+    effort_for_fixing: Optional[str] = Field(None,max_length=99)
     test: int
     duplicate_finding: int
-    review_requested_by: int
-    defect_review_requested_by: int
+    review_requested_by: Optional[int] = None
+    defect_review_requested_by: Optional[int] = None
     mitigated_by: int
     last_reviewed_by: int
-    sonarqube_issue: int
+    sonarqube_issue: Optional[int] = None
     endpoints: List[int] = Field(default_factory=list)
     reviewers: List[int] = Field(default_factory=list)
     notes: List[Note] = Field(default_factory=list)

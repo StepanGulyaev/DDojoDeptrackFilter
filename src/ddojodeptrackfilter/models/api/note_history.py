@@ -1,8 +1,8 @@
 from datetime import datetime
 from pydantic import BaseModel
 
-from .note_user import NoteUser
-from .inline_schemas.note_type import NoteType
+from .inline_schemas.note_user import NoteUser
+from .note_type import NoteType
 
 class NoteHistory(BaseModel):
     id: int
@@ -10,3 +10,12 @@ class NoteHistory(BaseModel):
     note_type: NoteType
     data: str
     time: datetime
+
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+        "json_encoders": {
+            datetime: lambda v: v.isoformat(),
+        }
+    }
+

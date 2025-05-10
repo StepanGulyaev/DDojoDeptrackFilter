@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date,datetime
 from typing import Any, List, Optional
 from pydantic import BaseModel, Field
 
@@ -18,3 +18,12 @@ class FindingEngagement(BaseModel):
     version: Optional[str] = Field(None,max_length=100)
     created: datetime
     updated: datetime
+
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+        "json_encoders": {
+            datetime: lambda v: v.isoformat(),
+            date: lambda v: v.isoformat(),
+        }
+    }

@@ -8,3 +8,8 @@ class FindingGroup(BaseModel):
     test: int
     jira_issue: JiraIssue
 
+    model_config = {
+        "populate_by_name": True,
+        "extra": "ignore",
+    }
+
