@@ -5,6 +5,6 @@ class NoteType(BaseModel):
     id: int
     name: str = Field(...,max_length=100)
     description: str = Field(...,max_length=100)
-    is_single: Optional[bool]
-    is_active: Optional[bool]
-    is_mandatory: Optional[bool]
+    is_single: Optional[bool] = None
+    is_active: Optional[bool] = None
+    is_mandatory: Optional[bool] = None

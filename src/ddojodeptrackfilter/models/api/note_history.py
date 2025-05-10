@@ -2,7 +2,7 @@ from datetime import datetime
 from pydantic import BaseModel
 
 from .note_user import NoteUser
-from .note_type import NoteType
+from .inline_schemas.note_type import NoteType
 
 class NoteHistory(BaseModel):
     id: int
