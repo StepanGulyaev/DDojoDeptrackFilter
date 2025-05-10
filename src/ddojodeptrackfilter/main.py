@@ -1,6 +1,6 @@
 from ddojodeptrackfilter.cli import parse_DDojo_args
 from ddojodeptrackfilter.client import DefectDojoClient
-from ddojodeptrackfilter.models.test import TestModel
+from ddojodeptrackfilter.models.api.test import TestModel
 
 import ddojodeptrackfilter.ddojo_test_handlers
 from ddojodeptrackfilter.ddojo_test_handlers.base import DDojoTestHandlerRegistry
@@ -15,7 +15,7 @@ def execute_main():
     test_handler = DDojoTestHandlerRegistry.get_for(tests[0])
     if test_handler:
         findings = test_handler.handle(tests[0],client)
-#        print(json.dumps(findings,indent=2))
+        print(json.dumps(findings,indent=2))
 
 if __name__ == '__main__':
     execute_main()

@@ -1,6 +1,6 @@
 from typing import List, Any
 
-from ddojodeptrackfilter.models.test import TestModel
+from ddojodeptrackfilter.models.api.test import TestModel
 from ddojodeptrackfilter.ddojo_test_handlers.base import DDojoTestHandler, ddojo_test_register_handler
 from ddojodeptrackfilter.client import DefectDojoClient
 from ddojodeptrackfilter.settings import settings

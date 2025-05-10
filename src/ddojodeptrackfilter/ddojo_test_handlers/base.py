@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Type, List
 from ddojodeptrackfilter.client import DefectDojoClient
 
-from ddojodeptrackfilter.models.test import TestModel
+from ddojodeptrackfilter.models.api.test import TestModel
 
 class DDojoTestHandler(ABC):
 
