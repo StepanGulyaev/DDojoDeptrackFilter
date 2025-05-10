@@ -15,9 +15,7 @@ def execute_main():
     test_handler = DDojoTestHandlerRegistry.get_for(tests[0])
     if test_handler:
         findings = test_handler.handle(tests[0],client)
-        print(json.dumps(findings,indent=2))
-    else:
-        print(f"No handler registered for test 'id{tests[0].id}, name: {tests[0].test_type_name}'")
+#        print(json.dumps(findings,indent=2))
 
 if __name__ == '__main__':
     execute_main()

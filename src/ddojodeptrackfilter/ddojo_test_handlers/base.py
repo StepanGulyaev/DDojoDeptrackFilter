@@ -28,7 +28,7 @@ class DDojoTestHandlerRegistry:
         for handler_cls in cls._handlers:
             if handler_cls.supports(test):
                 return handler_cls()
-        raise ValueError(f"No handler registered for test 'id{test.id}, name: {test.test_type_name}'")
+        print(f"No handler registered for test 'id{test.id}, name: {test.test_type_name}'")
 
 
 def ddojo_test_register_handler(handler_cls: Type[DDojoTestHandler]) -> Type[DDojoTestHandler]:
