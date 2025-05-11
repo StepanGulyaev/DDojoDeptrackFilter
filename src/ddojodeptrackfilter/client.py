@@ -1,8 +1,9 @@
 import requests 
 from urllib.parse import urljoin
 from urllib.parse import urlparse
-from settings import settings
 from concurrent.futures import ThreadPoolExecutor, as_completed
+
+from ddojodeptrackfilter.settings import settings
 
 class DefectDojoClient:
 
@@ -138,7 +139,8 @@ class DefectDojoClient:
         resp = self._request("GET",'api/v2/users/')
         return resp.json()
 
-    def get_findings(self,engagement_id: int, **params) -> dict:
+    def get_findings(self,test_id: int, **params) -> dict:
+        params['test'] = test_id
         return self._get_paginated_parallel(
                 endpoint='api/v2/findings/',
                 base_params=params,
