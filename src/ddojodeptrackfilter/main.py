@@ -17,7 +17,11 @@ def execute_main():
     if test_handler:
         raw_findings = test_handler.handle(tests[0],client)
         findings = [Finding.model_validate(finding) for finding in raw_findings["results"]]
-        #print(json.dumps(findings,indent=2))
+        for finding in findings:
+            print('----------------------------------')
+            print(finding.description)
+#            data = finding.model_dump(by_alias = True)
+#            print(json.dumps(data,indent=2, default=str))
 
 if __name__ == '__main__':
     execute_main()

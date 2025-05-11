@@ -9,10 +9,10 @@ from .note_history import NoteHistory
 
 class Note(BaseModel):
     id: int
-    author: NoteUser
-    editor: NoteUser
+    author: Optional[NoteUser] = None
+    editor: Optional[NoteUser] = None 
     history: List[NoteHistory] = Field(default_factory=list)
-    note_type: NoteType
+    note_type: Optional[NoteType] = None
     entry: str
     date: datetime
     private: Optional[bool] = None
