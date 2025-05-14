@@ -1,4 +1,5 @@
 from typing import List, Any
+import json
 
 from ddojodeptrackfilter.models.api.test import Test
 from ddojodeptrackfilter.models.api.finding import Finding
@@ -22,7 +23,10 @@ class DeptrackTestHandler(DDojoTestHandler):
         raw_findings = client.get_findings(test.id)
         findings = [Finding.model_validate(finding) for finding in raw_findings["results"]] 
         for finding in findings:
-            print('----------------------------------')
-            print(finding.description)
+            if finding.id == 110:
+                data = finding.model_dump(by_alias=True)
+                print(json.dumps(data,indent=2,default=str))
+#                print(finding.location)
+#                print(finding.description)
         
 

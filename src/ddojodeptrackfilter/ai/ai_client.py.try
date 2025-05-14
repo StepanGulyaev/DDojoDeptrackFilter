@@ -1,0 +1,15 @@
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.providers.openai import OpenAIProvider
+
+model = OpenAIModel(
+        'qwen/qwen3-30b-a3b:free',
+        provider=OpenAIProvider(
+            base_url='https://openrouter.ai/api/v1',
+            api_key = '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'
+        ),
+    )
+
+agent = Agent(model)
+result = agent.run_sync('Hello! Are you there?')
+print(result.output)
