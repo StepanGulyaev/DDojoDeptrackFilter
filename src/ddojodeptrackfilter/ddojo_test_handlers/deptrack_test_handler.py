@@ -51,7 +51,7 @@ class DeptrackTestHandler(DDojoTestHandler):
             )
 
         for finding in findings:
-            if finding.id == 110:
+            if finding.id == 21:
                 extracted_functions = ai_client_extract_functions.get_functions_deptrack_description(finding.description)
                 extracted_packages = ai_client_extract_packages.get_packages_deptrack_description(finding.file_path,finding.component_name,finding.description)
                 print(finding.id,extracted_functions.functions,extracted_packages.packages)

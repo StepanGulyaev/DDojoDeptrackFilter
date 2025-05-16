@@ -6,7 +6,7 @@ from langchain.prompts.chat import (
     )
 
 from langchain.output_parsers import PydanticOutputParser
-from typing import Type
+from typing import Type, Dict
 
 from pydantic import BaseModel
 from ddojodeptrackfilter.settings import settings
@@ -22,17 +22,19 @@ class OpenRouterAIClient:
         response_format: Type[BaseModel],
         model_name: str,
         temperature: float,
+        headers: Dict[str,str],
         api_base: str,
         api_key: str
     ):
 
+        self.model_name = model_name
+        self.temperature = temperature
+        self.headers = headers
         self.api_base = api_base
         self.api_key = api_key
-        self.model_name = model_name
-        self.temperature = temperature 
 
         self.chat = ChatOpenAI(
-            model_name= self.model_name,
+            model_name=self.model_name,
             temperature=self.temperature,
             openai_api_base=self.api_base,
             openai_api_key=self.api_key
