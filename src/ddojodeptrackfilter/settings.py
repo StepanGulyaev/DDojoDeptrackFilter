@@ -31,9 +31,6 @@ class Settings(BaseSettings):
             env='OPENROUTER_AI_X_TITLE'
         )
 
-<<<<<<< HEAD
-    deptrack_description_extract_sys_prompt: str = Field(
-=======
     openrouter_model_name: str = Field(
             "qwen/qwen3-32b:free",
             description="AI model for OpenRouterAI",
@@ -56,7 +53,6 @@ class Settings(BaseSettings):
     # Deptrack variables part
 
     deptrack_description_extract_func_sys_prompt: str = Field(
->>>>>>> 6c6d366 (Dev: works not bad, only need to do report and early version of program done)
             """
             You are VulnX, an expert vulnerability analysis assistant.
             You are DefectDojo and Dependency Track expert.

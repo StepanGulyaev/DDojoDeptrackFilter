@@ -7,11 +7,8 @@ from ddojodeptrackfilter.models.api.finding import Finding
 from ddojodeptrackfilter.ddojo_test_handlers.base import DDojoTestHandler, ddojo_test_register_handler
 from ddojodeptrackfilter.client import DefectDojoClient
 from ddojodeptrackfilter.settings import settings
-<<<<<<< HEAD
-=======
 from ddojodeptrackfilter.models.app.deptrack_description_extract import FunctionExtractModel
 from ddojodeptrackfilter.models.app.deptrack_description_extract import PackageExtractModel
->>>>>>> 6c6d366 (Dev: works not bad, only need to do report and early version of program done)
 
 @ddojo_test_register_handler
 class DeptrackTestHandler(DDojoTestHandler):
@@ -27,15 +24,6 @@ class DeptrackTestHandler(DDojoTestHandler):
     def handle(self, test: Test, client: DefectDojoClient): # Later specify what it returns, probably findings
         raw_findings = client.get_findings(test.id)
         findings = [Finding.model_validate(finding) for finding in raw_findings["results"]] 
-<<<<<<< HEAD
-        for finding in findings:
-            if finding.id == 110:
-                data = finding.model_dump(by_alias=True)
-                print(json.dumps(data,indent=2,default=str))
-#                print(finding.location)
-#                print(finding.description)
-        
-=======
 
         # TODO: I don't know if it's the best design for ai client. Maybe there is a better one. Need to think of it.
        
@@ -68,5 +56,4 @@ class DeptrackTestHandler(DDojoTestHandler):
                 print(finding.id,extracted_functions.functions,extracted_packages.packages)
  
                         
->>>>>>> 6c6d366 (Dev: works not bad, only need to do report and early version of program done)
 
