@@ -7,6 +7,7 @@ from ddojodeptrackfilter.models.api.finding import Finding
 from ddojodeptrackfilter.ddojo_test_handlers.base import DDojoTestHandler, ddojo_test_register_handler
 from ddojodeptrackfilter.client import DefectDojoClient
 from ddojodeptrackfilter.settings import settings
+from ddojodeptrackfilter.ai.ai_client import OpenRouterAIClient
 from ddojodeptrackfilter.models.app.deptrack_description_extract import FunctionExtractModel
 from ddojodeptrackfilter.models.app.deptrack_description_extract import PackageExtractModel
 
