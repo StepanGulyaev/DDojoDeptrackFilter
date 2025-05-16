@@ -10,6 +10,7 @@ from ddojodeptrackfilter.settings import settings
 from ddojodeptrackfilter.ai.ai_client import OpenRouterAIClient
 from ddojodeptrackfilter.models.app.deptrack_description_extract import FunctionExtractModel
 from ddojodeptrackfilter.models.app.deptrack_description_extract import PackageExtractModel
+from ddojodeptrackfilter.report.deptrack_report import DeptrackFindingReport
 
 @ddojo_test_register_handler
 class DeptrackTestHandler(DDojoTestHandler):
@@ -51,10 +52,19 @@ class DeptrackTestHandler(DDojoTestHandler):
             )
 
         for finding in findings:
-            if finding.id == 21:
+            if finding.id == 110:
+                #print(finding.model_dump(mode='json'))
                 extracted_functions = ai_client_extract_functions.get_functions_deptrack_description(finding.description)
-                extracted_packages = ai_client_extract_packages.get_packages_deptrack_description(finding.file_path,finding.component_name,finding.description)
-                print(finding.id,extracted_functions.functions,extracted_packages.packages)
+                extracted_packages = ai_client_extract_packages.get_packages_deptrack_description(finding.file_path,finding.component_name,finding.description)     
+                report = DeptrackFindingReport(
+                    title = finding.title,
+                    url = client.get_finding_url(finding.id),
+                    vulnerable_funcs = extracted_functions,
+                    vulnerable_packages = extracted_packages,
+                    description = finding.description
+                )
+                print(report.report)
+
  
                         
 

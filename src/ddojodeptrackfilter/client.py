@@ -157,4 +157,9 @@ class DefectDojoClient:
                 workers=settings.workers
             )
 
+    #TODO make method more wide, not just for findings
+
+    def get_finding_url(self,finding_id : int):
+        return f"{self.base_url}finding/{finding_id}" 
+
         
