@@ -11,6 +11,8 @@ from typing import Type
 from pydantic import BaseModel
 from ddojodeptrackfilter.settings import settings
 
+# TODO: I don't know if it's the best design for ai client. Maybe there is a better one. Need to think of it.
+
 class OpenRouterAIClient:
 
     def __init__(
@@ -48,8 +50,19 @@ class OpenRouterAIClient:
             self.human_message
         ])
 
+# TODO: make better design for these functions, they pretty much repeat each other
     
-    def parse(self,raw_text: str) -> BaseModel:
+    def get_packages_deptrack_description(self,file_path: str, component_name: str,  raw_text: str) -> BaseModel:
+        formatted = self.prompt.format(
+                text=raw_text,
+                schema_instructions=self.schema_instructions,
+                file_path=file_path,
+                component_name=component_name
+            )
+        response = self.chat.invoke(formatted)
+        return self.parser.parse(response.content)
+
+    def get_functions_deptrack_description(self, raw_text: str) -> BaseModel:
         formatted = self.prompt.format(
                 text=raw_text,
                 schema_instructions=self.schema_instructions
