@@ -11,6 +11,10 @@ from typing import Type, Dict
 from pydantic import BaseModel
 from ddojodeptrackfilter.settings import settings
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 # TODO: I don't know if it's the best design for ai client. Maybe there is a better one. Need to think of it.
 
 class OpenRouterAIClient:
@@ -61,13 +65,28 @@ class OpenRouterAIClient:
                 file_path=file_path,
                 component_name=component_name
             )
-        response = self.chat.invoke(formatted)
-        return self.parser.parse(response.content)
+        try:
+            response = self.chat.invoke(formatted)
+            return self.parser.parse(response.content)
+        except (ValueError) as e:
+            logger.error(
+                "get_packages_deptrack_description failed for %s: %s",
+                component_name, e, exc_info=True
+            )
+            return None
+
 
     def get_functions_deptrack_description(self, raw_text: str) -> BaseModel:
         formatted = self.prompt.format(
                 text=raw_text,
                 schema_instructions=self.schema_instructions
             )
-        response = self.chat.invoke(formatted)
-        return self.parser.parse(response.content)
+        try:
+            response = self.chat.invoke(formatted)
+            return self.parser.parse(response.content)
+        except (OpenAIError, ValueError) as e:
+            logger.error(
+                "get_functions_deptrack_description failed for %s: %s",
+                component_name, e, exc_info=True
+            )
+            return None

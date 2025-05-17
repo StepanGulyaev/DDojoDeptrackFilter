@@ -10,7 +10,8 @@ from ddojodeptrackfilter.settings import settings
 from ddojodeptrackfilter.ai.ai_client import OpenRouterAIClient
 from ddojodeptrackfilter.models.app.deptrack_description_extract import FunctionExtractModel
 from ddojodeptrackfilter.models.app.deptrack_description_extract import PackageExtractModel
-from ddojodeptrackfilter.report.deptrack_report import DeptrackFindingReport
+from ddojodeptrackfilter.reports.deptrack_report import DeptrackFindingReport
+from ddojodeptrackfilter.reports.html_report_generator import HTMLReportGenerator
 
 @ddojo_test_register_handler
 class DeptrackTestHandler(DDojoTestHandler):
@@ -51,11 +52,11 @@ class DeptrackTestHandler(DDojoTestHandler):
                 api_key = settings.openrouter_api_key
             )
 
+        reports = []
         for finding in findings:
-            if finding.id == 110:
-                #print(finding.model_dump(mode='json'))
-                extracted_functions = ai_client_extract_functions.get_functions_deptrack_description(finding.description)
-                extracted_packages = ai_client_extract_packages.get_packages_deptrack_description(finding.file_path,finding.component_name,finding.description)     
+            extracted_functions = ai_client_extract_functions.get_functions_deptrack_description(finding.description)
+            extracted_packages = ai_client_extract_packages.get_packages_deptrack_description(finding.file_path,finding.component_name,finding.description)   
+            if extracted_functions.functions or extracted_packages.packages:
                 report = DeptrackFindingReport(
                     title = finding.title,
                     url = client.get_finding_url(finding.id),
@@ -63,7 +64,19 @@ class DeptrackTestHandler(DDojoTestHandler):
                     vulnerable_packages = extracted_packages,
                     description = finding.description
                 )
-                print(report.report)
+                reports.append(report)
+                print(report.gen_text_report())
+                
+        html_report_gen = HTMLReportGenerator(reports=reports,package_name="reports",templates_dir="templates")
+        html_report_gen.write("deptrack_findings_report.html")
+
+
+            
+        
+
+
+
+        
 
  
                         
